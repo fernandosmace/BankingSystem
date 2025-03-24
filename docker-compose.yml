@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  bankingsystem:
+    image: bankingsystem
+    build:
+      context: .
+      dockerfile: BankingSystem.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - SQL_HOST=sqldb
+      - SQL_PORT=1433
+      - SQL_USER=sa
+      - SQL_PASSWORD=SenhaSql12345
+    ports:
+      - "5000:8080"
+    depends_on:
+      - sqldb
+      - mongodb
+    networks:
+      - backend
+
+  sqldb:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - SA_PASSWORD=SenhaSql12345
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
