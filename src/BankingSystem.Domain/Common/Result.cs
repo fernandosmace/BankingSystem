@@ -1,48 +1,70 @@
 ﻿using Flunt.Notifications;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BankingSystem.Domain.Common;
 
+[ExcludeFromCodeCoverage]
 public class Result
 {
     public bool Success { get; private set; }
-    public IReadOnlyCollection<Notification> Notifications { get; private set; }
+    public IList<Notification> Errors { get; private set; }
     public string Message { get; private set; }
 
-    protected Result(bool success, IReadOnlyCollection<Notification> notifications, string message)
+    protected Result(bool success, IList<Notification> notifications, string message)
     {
         Success = success;
-        Notifications = notifications ?? new List<Notification>();
+        Errors = notifications ?? [];
         Message = message;
+    }
+
+    protected Result(bool success, string message)
+    {
+        Success = success;
+        Message = message;
+        Errors = [];
     }
 
     public static Result Ok(string message = "")
     {
-        return new Result(true, new List<Notification>(), message);
+        return new Result(true, [], message);
     }
 
-    public static Result Fail(IReadOnlyCollection<Notification> notifications, string message = "")
+    public static Result Fail(IList<Notification> notifications, string message = "")
     {
         return new Result(false, notifications, message);
+    }
+
+    public static Result Fail(string message = "")
+    {
+        return new Result(false, message);
     }
 }
 
 public class Result<T> : Result
 {
-    public T Data { get; private set; }
+    public T? Data { get; private set; }
+    private Result(bool success, IList<Notification> notifications, string message)
+        : base(success, notifications, message) { }
 
-    private Result(bool success, IReadOnlyCollection<Notification> notifications, T data, string message)
+    private Result(bool success, IList<Notification> notifications, T? data, string message)
         : base(success, notifications, message)
     {
         Data = data;
     }
 
-    public static Result<T> Ok(T data, string message = "")
+
+    public static Result<T> Ok(T data = default!)
     {
-        return new Result<T>(true, new List<Notification>(), data, message);
+        return new Result<T>(true, [], data, string.Empty);
     }
 
-    public static Result<T> Fail(IReadOnlyCollection<Notification> notifications, T data = default, string message = "")
+    public static new Result<T> Fail(IList<Notification> notifications, string message = "")
     {
-        return new Result<T>(false, notifications, data, message);
+        return new Result<T>(false, notifications, message);
+    }
+
+    public static new Result<T> Fail(string message = "")
+    {
+        return new Result<T>(false, [], default!, message);
     }
 }

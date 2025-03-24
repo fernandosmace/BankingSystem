@@ -3,9 +3,8 @@ using Flunt.Notifications;
 using Flunt.Validations;
 
 namespace BankingSystem.Domain.Entities;
-public class Account : Notifiable<Notification>
+public class Account : Entity
 {
-    public Guid Id { get; private set; }
     public string Name { get; private set; }
     public string Document { get; private set; }
     public decimal Balance { get; private set; }
@@ -48,7 +47,8 @@ public class Account : Notifiable<Notification>
         var transferContract = new Contract<Notification>()
                 .Requires()
                 .IsTrue(IsActive, "Account.IsActive", "A conta de origem precisa estar ativa.")
-                .IsGreaterOrEqualsThan(Balance, amount, "Account.Balance", "A conta ded origem não possui saldo suficiente para a transferência.")
+                .IsGreaterOrEqualsThan(Balance, amount, "Account.Balance", "A conta de origem não possui saldo suficiente para a transferência.")
+                .IsGreaterThan(amount, 0, "Amount", "O valor de transferência deve ser maior que zero.")
                 .IsTrue(destinationAccount.IsActive, "Account.IsActive", "A conta de destino precisa estar ativa.");
 
         if (transferContract.IsValid)
@@ -58,6 +58,6 @@ public class Account : Notifiable<Notification>
             return Result.Ok("Transferência realizada com sucesso!");
         }
 
-        return Result.Fail(transferContract.Notifications, "Falha na realização da transferência!");
+        return Result.Fail(transferContract.Notifications.ToList(), "Falha na realização da transferência!");
     }
 }
