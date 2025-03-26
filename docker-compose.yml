@@ -1,11 +1,9 @@
-version: '3.4'
-
 services:
   bankingsystem:
     image: bankingsystem
     build:
       context: .
-      dockerfile: BankingSystem.API/Dockerfile
+      dockerfile: src/BankingSystem.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - SQL_HOST=sqldb
@@ -16,7 +14,6 @@ services:
       - "5000:8080"
     depends_on:
       - sqldb
-      - mongodb
     networks:
       - backend
 

@@ -35,12 +35,9 @@ Realize o download do repositorio via clone utilizando o comando:
 
 ### Formas de Executar a Aplicação
 
-#### 1. Via Docker Compose
-Na própria pasta do projeto, execute:
-```bash
-docker-compose up
-```
-Isso iniciará automaticamente de forma local os containers SQL Server e API, a qual estará acessível na porta `5000` sem necessidade de nenhuma configuração adicional al
+#### 1. Via Visual Studio
+1. Edite as variáveis de ambiente no perfil HTTPS no `launchSettings.json` do projeto da API para inserir as credenciais do banco de dados.
+2. Execute o projeto pelo Visual Studio, selecionando o perfil HTTPD e clicando no botão "Start" da IDE.
 
 #### 2. Via Linha de Comando
 1. Edite o arquivo `appsettings.json` para inserir as credenciais do banco de dados.
@@ -48,15 +45,17 @@ Isso iniciará automaticamente de forma local os containers SQL Server e API, a 
    ```bash
    dotnet restore
    ```
-
 3. Para executar a API:
    ```bash
    dotnet run
    ```
 
-#### 3. Via Visual Studio
-1. Edite as variáveis de ambiente no perfil HTTPS no `launchSettings.json` do projeto da API para inserir as credenciais do banco de dados.
-2. Execute o projeto pelo Visual Studio, selecionando o perfil HTTPD e clicando no botão "Start" da IDE.
+#### 3. Via Docker Compose
+Na própria pasta do projeto, execute:
+```bash
+docker-compose up
+```
+Automaticamente será realizado o download e start de um container SQL Server e o build da imagem Docker da aplicação localmente, realizando então o start da aplicação disponibilizando-a na porta `5000` sem necessidade de nenhuma configuração adicional.
 
 > *Observação: A aplicação aplica automaticamente as migrações do Entity Framework durante a inicialização, portanto, a execução do comando `dotnet ef database update` não é necessária.*
 
