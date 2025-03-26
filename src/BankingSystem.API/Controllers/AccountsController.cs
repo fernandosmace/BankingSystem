@@ -27,9 +27,9 @@ public class AccountsController : ControllerBase
     [ProducesResponseType(typeof(Result<AccountResponse>), 200)]
     [ProducesResponseType(typeof(Result<AccountResponse>), 404)]
     [ProducesResponseType(typeof(Result<AccountResponse>), 500)]
-    public async Task<IActionResult> GetAccountsByFilter([FromQuery] string filterName = "", [FromQuery] string filterDocument = "")
+    public async Task<IActionResult> GetAccountsByFilter([FromQuery] string Nome, [FromQuery] string Documento)
     {
-        var result = await _accountService.GetByFilterAsync(filterName, filterDocument);
+        var result = await _accountService.GetByFilterAsync(Nome, Documento);
 
         if (result.Success)
             return Ok(Result<IEnumerable<AccountResponse>>.Ok(result.Data!.Select(account => new AccountResponse(account.Id, account.Name, account.Document, account.Balance, account.CreatedAt, account.IsActive))));

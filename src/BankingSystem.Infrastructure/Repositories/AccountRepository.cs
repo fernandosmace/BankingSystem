@@ -35,7 +35,7 @@ public class AccountRepository : IAccountRepository
             query = query.Where(a => a.Name.Contains(filterName));
 
         if (!string.IsNullOrWhiteSpace(filterDocument))
-            query = query.Where(a => a.Document.Contains(filterDocument));
+            query = query.Where(a => a.Document == filterDocument);
 
         return await query.AsNoTracking().ToListAsync();
     }
