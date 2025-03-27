@@ -20,16 +20,16 @@ public class AccountsController : ControllerBase
     /// <summary>
     /// Obtém uma lista de contas com base no filtro informado de Nome e Documento
     /// </summary>
-    /// <param name="filterName">Nome à ser filtrado.</param>
-    /// <param name="filterDocument">Documento à ser filtrado.</param>
+    /// <param name="Nome">Nome à ser filtrado.</param>
+    /// <param name="Documento">Documento à ser filtrado.</param>
     /// <returns>Retorna uma lista de contas com base no filtrado informado de Nome e Documento</returns>
     [HttpGet("filter")]
     [ProducesResponseType(typeof(Result<AccountResponse>), 200)]
     [ProducesResponseType(typeof(Result<AccountResponse>), 404)]
     [ProducesResponseType(typeof(Result<AccountResponse>), 500)]
-    public async Task<IActionResult> GetAccountsByFilter([FromQuery] string Nome, [FromQuery] string Documento)
+    public async Task<IActionResult> GetAccountsByFilter([FromQuery] string? Nome, [FromQuery] string? Documento)
     {
-        var result = await _accountService.GetByFilterAsync(Nome, Documento);
+        var result = await _accountService.GetByFilterAsync(Nome ?? "", Documento ?? "");
 
         if (result.Success)
             return Ok(Result<IEnumerable<AccountResponse>>.Ok(result.Data!.Select(account => new AccountResponse(account.Id, account.Name, account.Document, account.Balance, account.CreatedAt, account.IsActive))));
