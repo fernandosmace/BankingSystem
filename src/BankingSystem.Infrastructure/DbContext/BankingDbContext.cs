@@ -82,5 +82,4 @@ public class BankingDbContext : DbContext
             entity.HasIndex(a => a.Document);
         });
     }
-
 }

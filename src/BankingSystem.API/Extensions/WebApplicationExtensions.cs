@@ -1,8 +1,10 @@
 ﻿using BankingSystem.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BankingSystem.API.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class WebApplicationExtensions
 {
     public static void ApplyMigrations(this WebApplication app)

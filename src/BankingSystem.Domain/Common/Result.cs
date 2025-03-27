@@ -40,6 +40,7 @@ public class Result
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class Result<T> : Result
 {
     public T? Data { get; private set; }

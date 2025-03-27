@@ -7,10 +7,12 @@ using BankingSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace BankingSystem.API;
 
+[ExcludeFromCodeCoverage]
 public class Program
 {
     public static void Main(string[] args)

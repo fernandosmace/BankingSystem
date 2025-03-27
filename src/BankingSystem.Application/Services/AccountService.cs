@@ -2,6 +2,8 @@
 using BankingSystem.Domain.Common;
 using BankingSystem.Domain.Entities;
 using BankingSystem.Domain.Repositories;
+using Flunt.Notifications;
+using Flunt.Validations;
 
 namespace BankingSystem.Application.Services;
 
@@ -69,6 +71,14 @@ public class AccountService : IAccountService
 
     public async Task<Result> DeactivateAccountByDocumentAsync(string document, string responsibleUser)
     {
+        var deactivateAccount = new Contract<Notification>()
+                .Requires()
+                .IsNotNullOrWhiteSpace(document, "Document", "O Documento da conta deve seer preenchido.")
+                .IsNotNullOrWhiteSpace(responsibleUser, "ResponsibleUser", "O Responsável pela desativação da conta deve ser preenchido.");
+
+        if (!deactivateAccount.IsValid)
+            return Result.Fail(deactivateAccount.Notifications.ToList());
+
         var account = await _accountRepository.GetByDocumentAsync(document);
 
         if (account == null)
@@ -78,7 +88,8 @@ public class AccountService : IAccountService
         await _accountRepository.UpdateAsync(account);
 
         var accountHistory = new AccountHistory(account.Id, account.Document, "Desativação", responsibleUser);
-        await _accountHistoryRepository.CreateAsync(accountHistory);
+        if (accountHistory.IsValid)
+            await _accountHistoryRepository.CreateAsync(accountHistory);
 
         return Result.Ok("Conta desativada com sucesso.");
     }
