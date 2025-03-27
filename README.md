@@ -8,13 +8,13 @@ Este projeto é uma API RESTful para gerenciamento de contas bancarias, onde o s
 
 - **GET** `/Accounts/filter?Name={Name}&Document={Document}`: Obtém a lista de contas cadastradas com base no nome do Cliente e no Documento vinculado.
 - **POST** `/Accounts`: Cria uma nova Conta informando o nome do Cliente (parcial ou completo) ou o Documento vinculado.
-- - O Nome do cliente e o Documento são campos obrigatórios para a criação da conta.
-- - Não é possível criar mais de uma conta com o mesmo documento.
-- - Ao ser criada, a conta possui o saldo inicial de R$ 1.000,00.
-- - A data de criação da conta é registrada automaticamente.
+  - O Nome do cliente e o Documento são campos obrigatórios para a criação da conta.
+  - Não é possível criar mais de uma conta com o mesmo documento.
+  - Ao ser criada, a conta possui o saldo inicial de R$ 1.000,00.
+  - A data de criação da conta é registrada automaticamente.
 - **POST** `/Accounts/transfer`: Realiza a transferência de valores de uma conta para outra através do ID da conta de origem, o ID da conta de destino e o valor desejado à ser transferido.
-- - Não é possível transferir valores de uma conta de origem que não possui no mínimo o valor solicitado na transferência.
-- - A conta de origem e a conta de destino devem estar ativas para realizar a transferência.
+  - Não é possível transferir valores de uma conta de origem que não possui no mínimo o valor solicitado na transferência.
+  - A conta de origem e a conta de destino devem estar ativas para realizar a transferência.
 - **POST** `/Accounts/Deactivate`: Realiza a desativação de uma conta recebendo o Documento como parametro e registra a ação no histórico.
 
 
