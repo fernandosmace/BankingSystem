@@ -66,7 +66,7 @@ public class AccountsController : ControllerBase
     /// <param name="destinationAccountId">Id da conta de destino da transferência.</param>
     /// <param name="amount">Valor da transferência</param>
     /// <returns>Retorna resultado da transferência.</returns>
-    [HttpPost("transfer")]
+    [HttpPost("{id}/transfer")]
     [ProducesResponseType(typeof(Result), 200)]
     [ProducesResponseType(typeof(Result), statusCode: 400)]
     [ProducesResponseType(typeof(Result), 500)]
@@ -86,7 +86,7 @@ public class AccountsController : ControllerBase
     /// <param name="document">Documento referente a conta à ser desativada.</param>
     /// <param name="responsibleUser">Nome do responsável pela desativação da conta.</param>
     /// <returns>Retorna resultado da desativação.</returns>
-    [HttpPost("deactivate")]
+    [HttpPatch("deactivate")]
     [ProducesResponseType(typeof(Result), 200)]
     [ProducesResponseType(typeof(Result), 400)]
     [ProducesResponseType(typeof(Result), 500)]
